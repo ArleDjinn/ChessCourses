@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Todos los cursos disponibles</h2>
+
+  {% if cursos %}
+    <div class="grid">
+      {% for curso in cursos %}
+        <div class="curso-box">
+          <h3>{{ curso.titulo }}</h3>
+          <p>{{ curso.descripcion[:100] }}...</p>
+          <p><strong>Precio:</strong> ${{ curso.precio }}</p>
+          <a href="{{ url_for('main.ver_curso', slug=curso.slug) }}">Ver curso</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No hay cursos disponibles en este momento.</p>
+  {% endif %}
+{% endblock %}

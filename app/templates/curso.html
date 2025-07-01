@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>{{ curso.titulo }}</h2>
+  <p>{{ curso.descripcion }}</p>
+  <p>Precio: ${{ curso.precio }}</p>
+
+  {% if current_user.is_authenticated %}
+    {% if tiene_acceso %}
+      <p>✅ Ya tienes acceso a este curso.</p>
+      <a href="{{ curso.url_video }}" target="_blank">Ver curso</a>
+    {% else %}
+      <p>🔒 No tienes acceso. Compra el curso para acceder al contenido.</p>
+      <form method="post" action="{{ url_for('main.comprar_curso', slug=curso.slug) }}">
+        <button type="submit">Comprar</button>
+      </form>
+    {% endif %}
+  {% else %}
+    <p><a href="{{ url_for('main.login') }}">Inicia sesión</a> para acceder o comprar este curso.</p>
+  {% endif %}
+{% endblock %}

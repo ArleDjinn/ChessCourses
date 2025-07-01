@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Chess Courses{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('main.cursos_disponibles') }}">Cursos</a></li>
+
+            {% if current_user.is_authenticated %}
+                Bienvenido {{ current_user.email }} |
+                <a href="{{ url_for('main.logout') }}">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('main.login') }}">Iniciar sesión</a> |
+                <a href="{{ url_for('main.registro') }}">Registrarse</a>
+            {% endif %}
+        </ul>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
