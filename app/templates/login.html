@@ -1,11 +1,85 @@
 {% extends 'base.html' %}
+{% set show_nav = False %}
+
+{% block title %}Iniciar sesión{% endblock %}
 
 {% block content %}
-<h2>Iniciar sesión</h2>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    {{ form.email.label }} {{ form.email() }}<br>
-    {{ form.password.label }} {{ form.password() }}<br>
-    {{ form.submit() }}
-</form>
+<div class="body-inner">
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Lado izquierdo: formulario -->
+            <div class="col-md-8 col-lg-7 d-flex align-items-center">
+                <div class="w-100 px-3 px-sm-5 px-xl-7">
+
+                    <div class="mb-5">
+                        <h6 class="h3 mb-1">¡Bienvenido de vuelta!</h6>
+                        <p class="text-muted mb-0">Inicia sesión para gestionar tu cuenta.</p>
+                    </div>
+
+                    <!-- Mensajes flash -->
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <div class="alert alert-warning" role="alert">
+                          {% for message in messages %}
+                            {{ message }}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    {% endwith %}
+
+                    <!-- Formulario Flask -->
+                    <form method="POST" class="form-validate">
+                        {{ form.hidden_tag() }}
+
+                        <div class="form-group">
+                            {{ form.email.label(class="form-label") }}
+                            <div class="input-group">
+                                {{ form.email(class="form-control", placeholder="Ingresa tu correo") }}
+                                <span class="input-group-text"><i class="icon-user"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.password.label(class="form-label") }}
+                            <div class="input-group show-hide-password">
+                                {{ form.password(class="form-control", placeholder="Ingresa tu contraseña") }}
+                                <span class="input-group-text"><i class="icon-eye-off" style="cursor: pointer;"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            {{ form.submit(class="btn btn-primary btn-block btn-primary") }}
+                        </div>
+                    </form>
+
+                    <div class="mt-4 text-center">
+                        <small>¿No tienes cuenta?</small>
+                        <a href="{{ url_for('main.registro') }}" class="small fw-bold">Crear cuenta</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Lado derecho: imagen -->
+            <div class="col-md-4 col-lg-5 d-none d-md-block bg-cover" style="background-image: url({{ url_for('static', filename='images/parallax/4.jpg') }});">
+                <a href="{{ url_for('main.index') }}"
+                   class="btn btn-white btn-rounded-only btn-rounded position-absolute left-4 top-4"
+                   data-bs-toggle="tooltip" data-bs-placement="right"
+                   title="Ir al inicio">
+                   <i class="icon-home"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Scroll top -->
+<a id="scrollTop"><i class="icon-chevron-up"></i><i class="icon-chevron-up"></i></a>
+
+<!--Plugins-->
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+
+<!--Template functions-->
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
+
 {% endblock %}

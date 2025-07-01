@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Chess Courses{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-            <li><a href="{{ url_for('main.cursos_disponibles') }}">Cursos</a></li>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="INSPIRO" />
+    <meta name="description" content="Themeforest Template Polo, html template">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-            {% if current_user.is_authenticated %}
-                Bienvenido {{ current_user.email }} |
-                <a href="{{ url_for('main.logout') }}">Cerrar sesión</a>
-            {% else %}
-                <a href="{{ url_for('main.login') }}">Iniciar sesión</a> |
-                <a href="{{ url_for('main.registro') }}">Registrarse</a>
-            {% endif %}
-        </ul>
-    </nav>
+    <!-- Document title -->
+    <title>{% block title %}Chess Courses{% endblock %}</title>
+
+    <!-- Stylesheets & Fonts -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugins.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    {% if show_nav is not defined or show_nav %}
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('main.cursos_disponibles') }}">Cursos</a></li>
+
+                {% if current_user.is_authenticated %}
+                    Bienvenido {{ current_user.email }} |
+                    <a href="{{ url_for('main.logout') }}">Cerrar sesión</a>
+                {% else %}
+                    <a href="{{ url_for('main.login') }}">Iniciar sesión</a> |
+                    <a href="{{ url_for('main.registro') }}">Registrarse</a>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
     <hr>
     {% block content %}{% endblock %}
 </body>
