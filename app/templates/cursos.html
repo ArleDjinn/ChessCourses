@@ -2,57 +2,5 @@
 {% block title %}Cursos{% endblock %}
 
 
-{% block content %}
-<section id="page-content" class="sidebar-left">
-    <div class="container">
-        <div class="row">
-            <!-- Sidebar vacío opcional -->
-            <div class="sidebar col-lg-3"></div>
-
-            <!-- Contenido principal -->
-            <div class="content col-lg-9">
-                <div class="shop shop-products">
-                    <div class="row">
-                        {% for curso in cursos %}
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="product-image">
-                                    <a href="{{ url_for('main.ver_curso', slug=curso.slug) }}">
-                                        <img src="{{ url_for('static', filename=curso.imagen or 'images/default.jpg') }}" alt="{{ curso.titulo }}">
-                                    </a>
-                                    {% if curso.en_oferta %}
-                                        <span class="product-label">Oferta</span>
-                                    {% endif %}
-                                    <div class="product-hover-overlay">
-                                        <a class="btn btn-primary" href="{{ url_for('main.ver_curso', slug=curso.slug) }}">Ver más</a>
-                                    </div>
-                                </div>
-                                <div class="product-description">
-                                    <div class="product-title">
-                                        <h3><a href="{{ url_for('main.ver_curso', slug=curso.slug) }}">{{ curso.titulo }}</a></h3>
-                                    </div>
-                                    <div class="product-price">
-                                        {% if curso.en_oferta and curso.precio_descuento %}
-                                            <del>${{ curso.precio }}</del>
-                                            <ins>${{ curso.precio_descuento }}</ins>
-                                        {% else %}
-                                            <ins>${{ curso.precio }}</ins>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-
-                        {% if not cursos %}
-                        <div class="col-12">
-                            <p class="text-center">No hay cursos disponibles en este momento.</p>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{% block content %} Por arreglar
 {% endblock %}
