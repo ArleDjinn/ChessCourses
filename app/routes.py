@@ -80,10 +80,8 @@ def comprar_curso(slug):
     flash('¡Curso comprado exitosamente!')
     return redirect(url_for('main.mis_cursos'))
 
-
-
-
 @main.route('/cursos')
 def cursos_disponibles():
     cursos = Course.query.all()
     return render_template('cursos.html', cursos=cursos)
+

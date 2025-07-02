@@ -16,10 +16,22 @@ class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(150), nullable=False)
     descripcion = db.Column(db.Text, nullable=False)
-    precio = db.Column(db.Integer, nullable=False)
-    url_video = db.Column(db.String(255), nullable=False)
-    purchases = db.relationship('Purchase', back_populates='course')
     slug = db.Column(db.String(150), unique=True, nullable=False)
+
+    precio = db.Column(db.Integer, nullable=False)
+    precio_descuento = db.Column(db.Integer, nullable=True)  # Opcional si está en oferta
+    en_oferta = db.Column(db.Boolean, default=False)
+
+    imagen = db.Column(db.String(255), nullable=True)  # Ruta relativa dentro de /static
+    categoria = db.Column(db.String(100), nullable=True)
+
+    url_video = db.Column(db.String(255), nullable=False)  # Video principal del curso
+    activo = db.Column(db.Boolean, default=True)
+
+    fecha_creacion = db.Column(db.DateTime, default=db.func.now())
+
+    purchases = db.relationship('Purchase', back_populates='course')
+
 
 class Purchase(db.Model):
     __tablename__ = 'purchase'

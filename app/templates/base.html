@@ -36,5 +36,9 @@
     {% endif %}
     <hr>
     {% block content %}{% endblock %}
+
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
 </body>
 </html>
