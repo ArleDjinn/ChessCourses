@@ -17,22 +17,85 @@
 </head>
 
 <body>
-    {% if show_nav is not defined or show_nav %}
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
-                <li><a href="{{ url_for('main.cursos_disponibles') }}">Cursos</a></li>
 
-                {% if current_user.is_authenticated %}
-                    Bienvenido {{ current_user.email }} |
-                    <a href="{{ url_for('main.logout') }}">Cerrar sesión</a>
-                {% else %}
-                    <a href="{{ url_for('main.login') }}">Iniciar sesión</a> |
-                    <a href="{{ url_for('main.registro') }}">Registrarse</a>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}
+<!-- Body Inner -->
+    <div class="body-inner">
+        <!-- Header -->
+        {% if not hide_header %}
+            <header id="header" class="header-modern dark">
+                <div class="header-inner">
+                    <div class="container">
+                        <!--Logo-->
+                        <div id="logo">
+                            <a href="{{ url_for('main.index') }}">
+                                <span class="logo-default">POLO</span>
+                                <span class="logo-dark">POLO</span>
+                            </a>
+                        </div>
+                        <!--End: Logo-->
+                        <!-- Search -->
+                        <div id="search"><a id="btn-search-close" class="btn-search-close" aria-label="Close search form"><i class="icon-x"></i></a>
+                            <form class="search-form" action="{{ url_for('main.buscar') }}" method="get">
+                                <input class="form-control" name="q" type="text" placeholder="Escribe y Busca" />
+                                <span class="text-muted">Comienza a escribir y presiona "Enter" or "ESC" para cerrar</span>
+                            </form>
+                        </div>
+                        <!-- end: search -->
+                        <!--Header Extras-->
+                        <div class="header-extras">
+                            <ul>
+                                <li>
+                                    <a id="btn-search" href="#"> <i class="icon-search"></i></a>
+                                </li>
+                                <li>
+                                    {% if current_user.is_authenticated %}
+                                        <div class="p-dropdown">
+                                            <a href="#"><i class="icon-user"></i></a>
+                                            <ul class="p-dropdown-content">
+                                                    <li>{{ current_user.email }}</li>
+                                                    <li><a href="{{ url_for('main.mis_cursos') }}">Mis Cursos</a></li>
+                                                    <li><a href="{{ url_for('main.logout') }}">Cerrar sesión</a></li>
+                                            </ul>
+                                        </div>
+                                    {% else %}
+                                        <div class="p-dropdown">
+                                            <a href="#"><i class="icon-log-in"></i></a>
+                                            <ul class="p-dropdown-content">
+                                                <li><a href="{{ url_for('main.login') }}">Iniciar sesión</a></li>
+                                                <li><a href="{{ url_for('main.registro') }}">Registrarse</a></li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+
+                                </li>
+                            </ul>
+                        </div>
+                        <!--end: Header Extras-->
+
+                        <!--Navigation Resposnive Trigger-->
+                        <div id="mainMenu-trigger">
+                            <a class="lines-button x"><span class="lines"></span></a>
+                        </div>
+                        <!--end: Navigation Resposnive Trigger-->
+                        <!--Navigation-->
+                        <div id="mainMenu">
+                            <div class="container">
+                                <nav>
+                                    <ul>
+                                        <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                                        <li><a href="{{ url_for('main.cursos_disponibles') }}">Cursos</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <!--end: Navigation-->
+                    </div>
+                </div>
+            </header>
+            <!-- end: Header -->
+        {% endif %}
+    </div>
+
     <hr>
     {% block content %}{% endblock %}
 

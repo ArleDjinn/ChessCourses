@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Resultados búsqueda{% endblock %}
+
+{% block content %}
+<!-- Page title -->
+<section id="page-title">
+    <div class="container">
+        <div class="page-title">
+            <h1>Resultados de Búsqueda</h1>
+            <span>Resultados para: <strong>{{ consulta }}</strong></span>
+        </div>
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="{{ url_for('main.index') }}">Inicio</a></li>
+                <li><a href="{{ url_for('main.cursos_disponibles') }}">Cursos</a></li>
+                <li>Buscar</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- end: Page title -->
+
+<!-- Page Content -->
+<section id="page-content" class="background-light">
+    <div class="container">
+        {% if resultados %}
+            <div class="row">
+                {% for curso in resultados %}
+                    <div class="col-md-4">
+                        <div class="team-member">
+                            <div class="team-image">
+                                <img src="{{ url_for('static', filename='images/cursos/' ~ curso.imagen) }}" alt="{{ curso.titulo }}">
+                            </div>
+                            <div class="team-desc">
+                                <h3>{{ curso.titulo }}</h3>
+                                <span>{{ curso.descripcion_corta }}</span>
+                                <div class="mt-2">
+                                    <a href="{{ url_for('main.ver_curso', slug=curso.slug) }}" class="btn btn-sm">Ver más</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center">
+                <h3>No se encontraron cursos que coincidan con "<strong>{{ consulta }}</strong>"</h3>
+                <p>Intenta con otras palabras clave.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+<!-- end: Page Content -->
+{% endblock %}

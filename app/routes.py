@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from .models import User, Purchase, Course
 from .forms import LoginForm, RegisterForm
 from . import db
@@ -20,7 +20,7 @@ def login():
             login_user(user)
             return redirect(url_for('main.index'))
         flash('Credenciales incorrectas')
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, hide_header=True)
 
 @main.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -38,7 +38,7 @@ def registro():
         db.session.commit()
         flash('Registro exitoso. Puedes iniciar sesión.')
         return redirect(url_for('main.login'))
-    return render_template('registro.html', form=form)
+    return render_template('registro.html', form=form, hide_header=True)
 
 @main.route('/logout')
 @login_required
@@ -84,4 +84,19 @@ def comprar_curso(slug):
 def cursos_disponibles():
     cursos = Course.query.all()
     return render_template('cursos.html', cursos=cursos)
+
+@main.route('/buscar')
+def buscar():
+    consulta = request.args.get('q', '').strip()
+    if consulta:
+        resultados = Course.query.filter(
+            Course.activo.is_(True),
+            db.or_(
+                Course.titulo.ilike(f'%{consulta}%'),
+                Course.descripcion.ilike(f'%{consulta}%')
+            )
+        ).all()
+    else:
+        resultados = []
+    return render_template('resultados_busqueda.html', consulta=consulta, resultados=resultados)
 
