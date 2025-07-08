@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from datetime import datetime
 from . import db
 
 
@@ -42,3 +43,16 @@ class Purchase(db.Model):
 
     user = db.relationship('User', back_populates='purchases')
     course = db.relationship('Course', back_populates='purchases')
+
+
+class MensajeContacto(db.Model):
+    __tablename__ = 'mensajes_contacto'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(120), nullable=False)
+    mensaje = db.Column(db.Text, nullable=False)
+    fecha_envio = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Mensaje de {self.nombre}>'

@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
-from .models import User, Purchase, Course
-from .forms import LoginForm, RegisterForm
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from .models import User, Purchase, Course, MensajeContacto
+from .forms import RegisterForm, LoginForm, FormularioContactoManual
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -100,3 +100,33 @@ def buscar():
         resultados = []
     return render_template('resultados_busqueda.html', consulta=consulta, resultados=resultados)
 
+
+@main.route('/contacto', methods=['POST'])
+def contacto():
+    # Mapeamos manualmente los nombres del HTML a los que espera WTForms
+    formdata = {
+        "widget_contact_form_name": request.form.get("widget-contact-form-name"),
+        "widget_contact_form_email": request.form.get("widget-contact-form-email"),
+        "widget_contact_form_message": request.form.get("widget-contact-form-message"),
+    }
+
+    form = FormularioContactoManual(data=formdata)
+
+    if form.validate():
+        nuevo_mensaje = MensajeContacto(
+            nombre=form.widget_contact_form_name.data,
+            correo=form.widget_contact_form_email.data,
+            mensaje=form.widget_contact_form_message.data
+        )
+        db.session.add(nuevo_mensaje)
+        db.session.commit()
+
+        return jsonify({
+            "response": "success",
+            "message": "Gracias por tu mensaje. Te contactaremos pronto."
+        })
+
+    return jsonify({
+        "response": "error",
+        "message": next(iter(form.errors.values()))[0]  # Primer error
+    }), 400
